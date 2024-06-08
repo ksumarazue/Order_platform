@@ -10,10 +10,11 @@ build/
 *.egg
 
 # Virtual environments
-Online_Order_Platform/venv/
 env/
 .env
-Online_Order_Platform/venv/
+venv/
+.venv
+
 
 
 # IDE specific files

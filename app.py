@@ -1,6 +1,7 @@
 from flask import Flask
-from database import db
 
+from controllers.user.views import user_bp
+from infra.database import db
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'
@@ -13,10 +14,11 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+app.register_blueprint(user_bp)
+
 @app.route('/')
 def hello():
     return 'Hello, World!'
-
 
 
 if __name__ == '__main__':
