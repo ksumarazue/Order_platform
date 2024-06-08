@@ -1,5 +1,6 @@
+from ..database import db
 from ..users.user import User
-from ...database import db
+
 
 
 class InvalidExpenseError(Exception):
@@ -10,7 +11,7 @@ class NotFoundExpenseError(Exception):
     pass
 
 
-class UserManager:
+class UserRepository:
     def get_all_users(self):
         return User.query.all()
 

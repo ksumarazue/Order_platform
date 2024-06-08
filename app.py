@@ -1,8 +1,7 @@
 from flask import Flask
-from database import db
+
 from controllers.user.views import user_bp
-
-
+from infra.database import db
 
 app = Flask(__name__)
 app.secret_key = 'secret-key'

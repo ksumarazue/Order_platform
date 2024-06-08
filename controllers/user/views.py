@@ -1,12 +1,12 @@
 from flask import render_template, request, flash, redirect, url_for, Blueprint
 
-from Online_Order_Platform.models.users.user_manager import UserManager
+from infra.users.user_repository import UserRepository
 
-# from .models.users.user_manager import UserManager
+# from .infra.users.user_manager import UserManager
 
 user_bp = Blueprint('user', __name__, url_prefix='/users') # czy /user może być users?
 
-user_manager = UserManager()
+user_manager = UserRepository()
 
 @user_bp.route('/')
 def display_users():
