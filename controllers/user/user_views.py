@@ -8,6 +8,7 @@ user_bp = Blueprint('user', __name__, url_prefix='/users') # czy /user moÅ¼e byÄ
 
 user_repository = UserRepository()
 
+
 @user_bp.route('/')
 def display_users():
     return render_template('users.html', users = user_repository.get_all_users())
@@ -27,7 +28,7 @@ def create_user():
             return redirect(url_for('user.display_users'))
         except InvalidUserError as err:
             flash(f"{err}", "danger")
-    return render_template('add.html')
+    return render_template('add_user.html')
 
 @user_bp.route('/edit/<int:id>', methods=['GET', 'POST'])
 def update_user_account(id):
@@ -35,7 +36,7 @@ def update_user_account(id):
     if request.method == 'GET':
         try:
             user = user_repository.get_user_data(id)
-            return render_template('edit.html', user=user)
+            return render_template('edit_user.html', user=user)
         except NotFoundUserError as err:
             flash(f"{err}", "danger")
             return redirect(url_for('user.display_users'))
@@ -50,7 +51,7 @@ def update_user_account(id):
             return redirect(url_for('user.display_users'))
         except InvalidUserError as err:
             user = user_repository.get_user_data(id)
-            return render_template('edit.html', user = user)
+            return render_template('edit_user.html', user=user)
 
 @user_bp.route('/delete/<int:id>', methods=['POST'])
 def delete_user(id):

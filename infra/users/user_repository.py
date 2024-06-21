@@ -2,7 +2,6 @@ from ..database import db
 from ..users.user import User
 
 
-
 class InvalidUserError(Exception):
     pass
 
@@ -18,7 +17,6 @@ class UserRepository:
     def add_user(self, name: str, email: str, password: str, group: str):
         if not name or not email or not password or not group:
             raise InvalidUserError("Invalid expense data")
-        print(name, email, password, group)
         new_user = User(name=name, email=email, password=password, group=group)
         db.session.add(new_user)
         db.session.commit()
@@ -36,7 +34,7 @@ class UserRepository:
 
     @staticmethod
     def get_user_data(id):
-        print(f'get user data {id}')
+        # print(f'get user data {id}')
         user = User.query.filter_by(id=id).first()
         if not user:
             return NotFoundUserError(f'User ID = {id} not found')
