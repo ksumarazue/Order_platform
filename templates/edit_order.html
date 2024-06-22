@@ -1,0 +1,25 @@
+{% extends "_base.html" %}
+{% block content %}
+
+    <h1 class="text-info">Edit Order</h1>
+   <form action="{{ url_for('product.update_product', product_id=product.prd_Id) }}" method="post">
+        <div class="row">
+        <div class="mb-3 col-4">
+        <label class="form-label" for="product_name">Product name:</label><br>
+        <input class="form-control" type="text" id="product_name" name="product_name" value="{{product.prd_Name}}" required><br>
+
+        <label class="form-label" for="product_unit">Product unit:</label><br>
+        <input class="form-control" type="text" id="product_unit" name="product_unit" value="{{product.prd_Unit}}" required><br>
+
+        <label class="form-label" for="product_price">Product price:</label><br>
+        <input class="form-control" type="number" min="0" max="1000" step="0.01" id="product_price" name="product_price" value="{{product.prd_PriceNet}}" required><br>
+
+        <label class="form-label" for="product_ean">Product ean:</label><br>
+        <input class="form-control" type="number" min="1000000000000" max="9999999999999" step="1" id="product_ean" name="product_ean" value="{{product.prd_Ean}}"><br><br>
+        <br>
+        <input class="form-control btn btn-success shadow-lg" type="submit" value="Submit">
+        </div>
+        </div>
+    </form>
+
+{% endblock %}

@@ -1,34 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Order Platform</title>
-    <!-- Dodanie Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-    <!-- Pasek nawigacyjny -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand">Order Platform</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('user.display_users') }}">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('order.display_orders') }}">Orders</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url_for('product.display_products') }}">Products</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
+{% extends "_base.html" %}
+{% block content %}
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center">
@@ -42,32 +13,31 @@
             <thead>
                 <tr class="table-info">
                     <th><b>ID</b></th>
-                    <th><b>Desc</b></th>
-                    <th><b>Amount</b></th>
-                    <th><b>Date</b></th>
+                    <th><b>User Name</b></th>
+                    <th><b>Status</b></th>
                     <th><b>Update</b></th>
                     <th><b>Delete</b></th>
                 </tr>
             </thead>
             <tbody>
-                <!--
-                {% for user in users %}
+
+                {% for order in orders %}
                 <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.group }}</td>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.name }}</td>
+                    <td>{{ order.email }}</td>
+                    <td>{{ order.group }}</td>
                     <td>
-                        <a class="btn btn-info btn-sm" href="{{ url_for('user.update_user_account', id=user.id) }}">Update</a>
+                        <a class="btn btn-info btn-sm" href="{{ url_for('order.update_order_account', id=order.id) }}">Update</a>
                     </td>
                     <td>
-                    <form action="{{ url_for('user.delete_user', id=user.id) }}" method="post" style="display:inline;">
+                    <form action="{{ url_for('order.delete_order', id=order.id) }}" method="post" style="display:inline;">
                   <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
                     </td>
                 </tr>
                 {% endfor %}
-                -->
+
             </tbody>
         </table>
     </div>
@@ -76,5 +46,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+
+{% endblock %}
