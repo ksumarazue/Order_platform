@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+<h1>Your Cart</h1>
+<ul>
+    {% for item in cart_items %}
+    <li>
+        {% set product = products | selectattr('id', 'equalto', item.product_id) | first %}
+        {{ product.name if product else 'Unknown Product' }} - Quantity: {{ item.quantity }}
+        <form method="POST" action="{{ url_for('order.update_cart', product_id=item.product_id) }}" style="display:inline;">
+            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 50px;">
+            <button type="submit">Update</button>
+        </form>
+        <form method="POST" action="{{ url_for('order.remove_from_cart', product_id=item.product_id) }}" style="display:inline;">
+            <button type="submit">Remove</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+<p>Total: ${{ total }}</p>
+<form method="POST" action="{{ url_for('order.confirm_cart') }}">
+    <button type="submit">Confirm Order</button>
+</form>
+{% endblock %}

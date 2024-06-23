@@ -16,7 +16,10 @@
                 </form>
                 <a href="{{ url_for('product.edit_product', product_id=product.id) }}">Edit</a>
             {% elif session.get('role') == 'client' %}
-                <button>Add to Cart</button>
+                <form method="POST" action="{{ url_for('order.add_to_cart', product_id=product.id) }}" style="display:inline;">
+                    <input type="number" name="quantity" value="1" min="1" style="width: 50px;">
+                    <button type="submit">Add to Cart</button>
+                </form>
             {% endif %}
         {% endif %}
     </li>
