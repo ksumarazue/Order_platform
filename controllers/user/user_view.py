@@ -16,6 +16,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and check_password_hash(user.password, password):
             session['user_id'] = user.id
+            session['role'] = user.role
             flash('Login successful!', 'success')
             return redirect(url_for('user.home'))
         else:
@@ -63,18 +64,13 @@ def admin():
             flash(f'User {user_to_delete.username} deleted successfully.', 'success')
 
     users = User.query.all()
-    return render_template('admin.html', users=users)
+    return render_template('admin.html', users=users, user=user)
 
 @user_blueprint.route('/home')
 def home():
     if 'user_id' in session:
         user = User.query.get(session['user_id'])
-        if user.role == 'admin':
-            return render_template('home.html', user=user, admin=True)
-        elif user.role == 'client':
-            return render_template('home.html', user=user, client=True)
-        else:
-            return render_template('home.html', user=user, client=False, admin=False)
+        return render_template('home.html', user=user, admin=user.role == 'admin', client=user.role == 'client')
     else:
         flash('You are not logged in!', 'danger')
         return redirect(url_for('user.login'))
@@ -82,5 +78,6 @@ def home():
 @user_blueprint.route('/logout')
 def logout():
     session.pop('user_id', None)
+    session.pop('role', None)
     flash('You have been logged out.', 'info')
     return redirect(url_for('user.login'))

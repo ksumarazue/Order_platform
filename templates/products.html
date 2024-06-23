@@ -1,27 +1,28 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Products</title>
-</head>
-<body>
-    <h1>Products</h1>
-    <ul>
-        {% for product in products %}
-        <li>
-            <a href="{{ url_for('product.product_detail', product_id=product.id) }}">{{ product.name }}</a>
-            {% if session.get('user_id') %}
+{% extends "base.html" %}
+
+{% block title %}Products{% endblock %}
+
+{% block content %}
+<h1>Products</h1>
+<ul>
+    {% for product in products %}
+    <li>
+        <a href="{{ url_for('product.product_detail', product_id=product.id) }}">{{ product.name }}</a>
+        {% if session.get('user_id') %}
+            {% if session.get('role') in ['admin', 'user'] %}
                 <form method="POST" action="{{ url_for('product.delete_product', product_id=product.id) }}" style="display:inline;">
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit">Delete</button>
                 </form>
                 <a href="{{ url_for('product.edit_product', product_id=product.id) }}">Edit</a>
+            {% elif session.get('role') == 'client' %}
+                <button>Add to Cart</button>
             {% endif %}
-        </li>
-        {% endfor %}
-    </ul>
-    {% if session.get('user_id') %}
-        <a href="{{ url_for('product.add_product') }}">Add Product</a>
-    {% endif %}
-</body>
-</html>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% if session.get('user_id') and session.get('role') in ['admin', 'user'] %}
+    <a href="{{ url_for('product.add_product') }}">Add Product</a>
+{% endif %}
+{% endblock %}

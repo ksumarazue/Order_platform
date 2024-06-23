@@ -1,20 +1,17 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-</head>
-<body>
-    <h1>Home</h1>
-    <p>Welcome, {{ user.username }}!</p>
-    {% if admin %}
-        <p>You are an admin.</p>
-        <a href="{{ url_for('user.admin') }}">Go to Admin Panel</a>
-    {% elif client %}
-        <p>You are a client.</p>
-    {% else %}
-        <p>You are a user.</p>
-    {% endif %}
-    <a href="{{ url_for('user.logout') }}">Logout</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h1>Home</h1>
+<p>Welcome, {{ user.username }}!</p>
+{% if admin %}
+    <p>You are an admin.</p>
+    <a href="{{ url_for('user.admin') }}">Go to Admin Panel</a>
+{% elif client %}
+    <p>You are a client.</p>
+{% else %}
+    <p>You are a user.</p>
+{% endif %}
+<a href="{{ url_for('user.logout') }}">Logout</a>
+{% endblock %}

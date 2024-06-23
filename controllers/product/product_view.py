@@ -8,14 +8,24 @@ product_blueprint = Blueprint('product', __name__)
 
 @product_blueprint.route('/products')
 def products():
+    if 'user_id' not in session:
+        flash('You need to be logged in to view this page.', 'danger')
+        return redirect(url_for('user.login'))
+
     all_products = Product.query.all()
-    return render_template('products.html', products=all_products)
+    user = User.query.get(session.get('user_id')) if 'user_id' in session else None
+    return render_template('products.html', products=all_products, user=user)
 
 
 @product_blueprint.route('/product/<int:product_id>')
 def product_detail(product_id):
+    if 'user_id' not in session:
+        flash('You need to be logged in to view this page.', 'danger')
+        return redirect(url_for('user.login'))
+
     product = Product.query.get_or_404(product_id)
-    return render_template('product_detail.html', product=product)
+    user = User.query.get(session.get('user_id')) if 'user_id' in session else None
+    return render_template('product_detail.html', product=product, user=user)
 
 
 @product_blueprint.route('/product/add', methods=['GET', 'POST'])
@@ -40,7 +50,7 @@ def add_product():
         flash('Product added successfully.', 'success')
         return redirect(url_for('product.products'))
 
-    return render_template('add_product.html')
+    return render_template('add_product.html', user=user)
 
 
 @product_blueprint.route('/product/edit/<int:product_id>', methods=['GET', 'POST'])
@@ -65,7 +75,7 @@ def edit_product(product_id):
         flash('Product updated successfully.', 'success')
         return redirect(url_for('product.products'))
 
-    return render_template('edit_product.html', product=product)
+    return render_template('edit_product.html', product=product, user=user)
 
 
 @product_blueprint.route('/product/delete/<int:product_id>', methods=['POST'])
