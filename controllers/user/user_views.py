@@ -4,7 +4,7 @@ from infra.users.user_repository import UserRepository, InvalidUserError, NotFou
 
 # from .infra.users.user_manager import UserManager
 
-user_bp = Blueprint('user', __name__, url_prefix='/users') # czy /user może być users?
+user_bp = Blueprint('user', __name__, url_prefix='/users')
 
 user_repository = UserRepository()
 
