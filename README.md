@@ -10,7 +10,7 @@ This is a simple online ordering platform built using Flask, a lightweight web f
 - Order status tracking
 
 ## Project Structure
-
+```
 CodeMe_Fin_Project/
 │
 ├── controllers/
@@ -35,7 +35,7 @@ CodeMe_Fin_Project/
 ├── create_admin.py
 ├── README.md
 └── requirements.txt
-
+```
 
 ## Installation
 
