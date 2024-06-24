@@ -1,6 +1,7 @@
 from models.order.order import Order, OrderItem
 from models.product.product import Product
 from models.database import db
+from models.user.user import User
 
 
 class OrderRepository:
@@ -27,7 +28,7 @@ class OrderRepository:
             total += item_total
         return total, products
 
-    def confirm_order(self, user_id, cart_items):
+    def confirm_cart(self, user_id, cart_items):
         order = Order(user_id=user_id, status='confirmed')
         db.session.add(order)
         db.session.commit()
@@ -42,3 +43,20 @@ class OrderRepository:
         products_query = Product.query.filter(Product.id.in_(product_ids))
         products = products_query.all()
         return products
+
+    def get_all_order_for_user(self, user):
+        if user.role == 'client':
+            orders = Order.query.filter_by(user_id=user.id).all()
+        else:
+            orders = Order.query.all()
+
+        orders_with_users = []
+        for order in orders:
+            order_user = User.query.get(order.user_id)
+            orders_with_users.append((order, order_user))
+        return orders_with_users
+
+    def get_order_detail(self, order_id):
+        order = Order.query.get_or_404(order_id)
+        order_user = User.query.get(order.user_id)
+        return order, order_user

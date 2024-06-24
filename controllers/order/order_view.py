@@ -2,8 +2,8 @@ from flask import Blueprint, render_template, redirect, url_for, request, sessio
 
 from controllers.order.order_repository import OrderRepository
 from models.database import db
-from models.order.order import Order, OrderItem
-from models.product.product import Product
+from models.order.order import Order
+
 from models.user.user import User
 
 order_blueprint = Blueprint('order', __name__)
@@ -33,7 +33,9 @@ def add_to_cart(product_id):
         flash('You need to be logged in to add items to the cart.', 'danger')
         return redirect(url_for('user.login'))
 
+    print(session['user_id'])
     user = User.query.get(session['user_id'])
+    print(user)
     if user.role != 'client':
         flash('Only clients can add items to the cart.', 'danger')
         return redirect(url_for('user.home'))
@@ -107,7 +109,7 @@ def confirm_cart():
         flash('Your cart is empty.', 'danger')
         return redirect(url_for('order.cart'))
 
-    order = order_repository.confirm_order(user.id, cart_items)
+    order = order_repository.confirm_cart(user.id, cart_items)
 
     session.pop('cart', None)
     flash(f'Order #{order.id} confirmed successfully.', 'success')
@@ -121,16 +123,7 @@ def orders():
         return redirect(url_for('user.login'))
 
     user = User.query.get(session['user_id'])
-    if user.role == 'client':
-        orders = Order.query.filter_by(user_id=user.id).all()
-    else:
-        orders = Order.query.all()
-
-    orders_with_users = []
-    for order in orders:
-        order_user = User.query.get(order.user_id)
-        orders_with_users.append((order, order_user))
-
+    orders_with_users = order_repository.get_all_order_for_user(user)
     return render_template('orders.html', orders_with_users=orders_with_users, user=user)
 
 
@@ -140,9 +133,8 @@ def order_detail(order_id):
         flash('You need to be logged in to view the order.', 'danger')
         return redirect(url_for('user.login'))
 
-    order = Order.query.get_or_404(order_id)
     user = User.query.get(session['user_id'])
-    order_user = User.query.get(order.user_id)
+    order, order_user = order_repository.get_order_detail(order_id)
 
     if user.role == 'client' and order.user_id != user.id:
         flash('You do not have permission to view this order.', 'danger')
