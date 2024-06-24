@@ -1,10 +1,14 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
+
+from controllers.order.order_repository import OrderRepository
 from models.database import db
 from models.order.order import Order, OrderItem
 from models.product.product import Product
 from models.user.user import User
 
 order_blueprint = Blueprint('order', __name__)
+
+order_repository = OrderRepository()
 
 
 @order_blueprint.route('/cart')
@@ -19,9 +23,7 @@ def cart():
         return redirect(url_for('user.home'))
 
     cart_items = session.get('cart', [])
-    products = Product.query.filter(Product.id.in_([item['product_id'] for item in cart_items])).all()
-    total = sum(
-        item['quantity'] * next((p.price for p in products if p.id == item['product_id']), 0) for item in cart_items)
+    total, products = order_repository.calculate_cart_total(cart_items)
     return render_template('cart.html', cart_items=cart_items, products=products, total=total)
 
 
@@ -105,15 +107,8 @@ def confirm_cart():
         flash('Your cart is empty.', 'danger')
         return redirect(url_for('order.cart'))
 
-    order = Order(user_id=user.id, status='confirmed')
-    db.session.add(order)
-    db.session.commit()
+    order = order_repository.confirm_order(user.id, cart_items)
 
-    for item in cart_items:
-        order_item = OrderItem(order_id=order.id, product_id=item['product_id'], quantity=item['quantity'])
-        db.session.add(order_item)
-
-    db.session.commit()
     session.pop('cart', None)
     flash(f'Order #{order.id} confirmed successfully.', 'success')
     return redirect(url_for('order.orders'))

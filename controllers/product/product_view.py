@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, request, session, flash
 
 from controllers.product.product_repository import ProductRepository
-from models.database import db
-from models.product.product import Product
 from models.user.user import User
 
 product_blueprint = Blueprint('product', __name__)
