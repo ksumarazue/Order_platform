@@ -1,5 +1,6 @@
 from flask import Flask
 
+
 from controllers.order.order_view import order_blueprint
 from controllers.product.product_view import product_blueprint
 from models.database import db
@@ -21,3 +22,4 @@ app.register_blueprint(order_blueprint, url_prefix='/')
 
 if __name__ == '__main__':
     app.run(debug=True)
+

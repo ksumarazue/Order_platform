@@ -160,3 +160,4 @@ def update_order_status(order_id):
     db.session.commit()
     flash('Order status updated successfully.', 'success')
     return redirect(url_for('order.order_detail', order_id=order_id))
+

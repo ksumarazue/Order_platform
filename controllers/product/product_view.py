@@ -5,8 +5,8 @@ from models.user.user import User
 
 product_blueprint = Blueprint('product', __name__)
 
-product_repository = ProductRepository()
 
+product_repository = ProductRepository()
 
 @product_blueprint.route('/products')
 def products():
@@ -96,3 +96,4 @@ def delete_product(product_id):
     product_repository.delete_product(product_id)
     flash('Product deleted successfully.', 'success')
     return redirect(url_for('product.products'))
+
