@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Order platform
 
 This is a simple online ordering platform built using Flask, a lightweight web framework in Python, along with SQLite for the database.
