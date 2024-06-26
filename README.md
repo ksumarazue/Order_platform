@@ -77,7 +77,7 @@ Order_platform-master/
 
 ## Usage
 
-1. Open your web browser and navigate to `http://127.0.0.1:5000/`.
+1. Open your web browser and navigate to `http://127.0.0.1:5000/home`.
 
 2. You can log in with the admin account you created.
 
