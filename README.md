@@ -11,7 +11,7 @@ This is a simple online ordering platform built using Flask, a lightweight web f
 
 ## Project Structure
 ```
-Order_platform/
+Order_platform-master/
 │
 ├── controllers/
 │ ├── order/
@@ -46,7 +46,7 @@ Order_platform/
 
 2. Navigate to the project directory:
     ```sh
-    cd CodeMe_Fin_Project
+    cd Order_platform-master
     ```
 
 3. Install dependencies:
