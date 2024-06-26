@@ -49,18 +49,28 @@ Order_platform-master/
     cd Order_platform-master
     ```
 
-3. Install dependencies:
+3. Create virtual environment
+   ```sh
+   python -m venv venv
+   ```
+   
+4. Activate virtual environment
+   ```
+   venv\Scripts\Activate
+   ```
+   
+5. Install dependencies:
     ```sh
     pip install -r requirements.txt
     ```
 
-4. Before starting the application for the first time, you must create an admin account. To do this, first run:
+6. Before starting the application for the first time, you must create an admin account. To do this, first run:
     ```sh
     python create_admin.py
     ```
     This operation will create the user 'admin' with the password 'admin_password'.
 
-5. Run the application:
+7. Run the application:
     ```sh
     python app.py
     ```
